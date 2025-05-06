@@ -1,10 +1,10 @@
-// Claude Code Editor - Main Script
+// Singh Code Editor - Main Script
 
 // Initialize variables
 let editor;
 let htmlEditor, cssEditor, jsEditor;
 let currentLanguage = 'python';
-let currentTheme = 'claude-dark';
+let currentTheme = 'singh-dark';
 let isDarkTheme = true;
 let isWebMode = false;
 
@@ -19,18 +19,18 @@ const languageModes = {
 
 // Default code templates
 const codeTemplates = {
-  'python': '# Welcome to Claude Code Editor\n# Start coding in Python\n\ndef greet(name):\n    return f"Hello, {name}!"\n\nprint(greet("World"))\n',
-  'html': '<!DOCTYPE html>\n<html>\n<head>\n    <title>Claude Code Editor</title>\n</head>\n<body>\n    <h1>Welcome to Claude Code Editor</h1>\n    <p>Start coding in HTML</p>\n</body>\n</html>\n',
-  'css': '/* Welcome to Claude Code Editor */\n/* Start coding in CSS */\n\nbody {\n    font-family: Arial, sans-serif;\n    background-color: #f5f5f5;\n    color: #333;\n}\n\nh1 {\n    color: #7857FF;\n}\n',
-  'javascript': '// Welcome to Claude Code Editor\n// Start coding in JavaScript\n\nfunction greet(name) {\n    return `Hello, ${name}!`;\n}\n\nconsole.log(greet("World"));\n',
-  'java': '// Welcome to Claude Code Editor\n// Start coding in Java\n\npublic class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}\n'
+  'python': '# Welcome to Singh Editor\n# Start coding in Python\n\ndef greet(name):\n    return f"Hello, {name}!"\n\nprint(greet("World"))\n',
+  'html': '<!DOCTYPE html>\n<html>\n<head>\n    <title>Singh Editor</title>\n</head>\n<body>\n    <h1>Welcome to Singh Editor</h1>\n    <p>Start coding in HTML</p>\n</body>\n</html>\n',
+  'css': '/* Welcome to Singh Editor */\n/* Start coding in CSS */\n\nbody {\n    font-family: Arial, sans-serif;\n    background-color: #f5f5f5;\n    color: #333;\n}\n\nh1 {\n    color: #7857FF;\n}\n',
+  'javascript': '// Welcome to Singh Editor\n// Start coding in JavaScript\n\nfunction greet(name) {\n    return `Hello, ${name}!`;\n}\n\nconsole.log(greet("World"));\n',
+  'java': '// Welcome to Singh Editor\n// Start coding in Java\n\npublic class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}\n'
 };
 
 // Default web mode templates
 const webTemplates = {
-  'html': '<!DOCTYPE html>\n<html>\n<head>\n    <title>Web Preview</title>\n</head>\n<body>\n    <h1>Welcome to Claude Code Editor</h1>\n    <p>This is a live web preview. Edit HTML, CSS, and JavaScript to see changes.</p>\n    <button id="demo-btn">Click Me</button>\n</body>\n</html>',
+  'html': '<!DOCTYPE html>\n<html>\n<head>\n    <title>Web Preview</title>\n</head>\n<body>\n    <h1>Welcome to Singh Editor</h1>\n    <p>This is a live web preview. Edit HTML, CSS, and JavaScript to see changes.</p>\n    <button id="demo-btn">Click Me</button>\n</body>\n</html>',
   'css': 'body {\n    font-family: "Inter", sans-serif;\n    line-height: 1.6;\n    margin: 0;\n    padding: 20px;\n    background-color: #f8f9fa;\n    color: #333;\n}\n\nh1 {\n    color: #7857FF;\n    margin-bottom: 10px;\n}\n\nbutton {\n    background-color: #7857FF;\n    color: white;\n    border: none;\n    padding: 8px 16px;\n    border-radius: 4px;\n    cursor: pointer;\n    transition: background-color 0.3s;\n}\n\nbutton:hover {\n    background-color: #5A3FD6;\n}',
-  'javascript': 'document.addEventListener("DOMContentLoaded", function() {\n    const btn = document.getElementById("demo-btn");\n    if (btn) {\n        btn.addEventListener("click", function() {\n            alert("Hello from Claude Code Editor!");\n        });\n    }\n});\n'
+  'javascript': 'document.addEventListener("DOMContentLoaded", function() {\n    const btn = document.getElementById("demo-btn");\n    if (btn) {\n        btn.addEventListener("click", function() {\n            alert("Hello from Singh Editor!");\n        });\n    }\n});\n'
 };
 
 // Initialize the editor
@@ -319,14 +319,14 @@ function toggleTheme() {
     document.body.classList.remove('dark-theme');
     document.body.classList.add('light-theme');
     document.getElementById('toggle-theme-btn').textContent = '☀️';
-    document.getElementById('theme-select').value = 'claude-light';
-    changeTheme('claude-light');
+    document.getElementById('theme-select').value = 'singh-light';
+    changeTheme('singh-light');
   } else {
     document.body.classList.remove('light-theme');
     document.body.classList.add('dark-theme');
     document.getElementById('toggle-theme-btn').textContent = '🌙';
-    document.getElementById('theme-select').value = 'claude-dark';
-    changeTheme('claude-dark');
+    document.getElementById('theme-select').value = 'singh-dark';
+    changeTheme('singh-dark');
   }
   
   isDarkTheme = !isDarkTheme;
