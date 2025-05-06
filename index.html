@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code Editor</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Load CodeMirror from CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+  
+  <!-- CodeMirror modes -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/htmlmixed/htmlmixed.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/css/css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/clike/clike.min.js"></script>
+  
+  <!-- CodeMirror addons -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closebrackets.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/matchbrackets.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldgutter.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/javascript-hint.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/html-hint.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/css-hint.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldgutter.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.css">
+  
+  <!-- CodeMirror themes -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/solarized.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/github.min.css">
+</head>
+<body class="dark-theme">
+  <header>
+    <div class="brand">
+      <div class="logo">C</div>
+      <h1 class="brand-title">Claude Code Editor</h1>
+    </div>
+    <div class="header-controls">
+      <button id="run-btn" class="btn btn-primary">Run Code</button>
+      <button id="clear-btn" class="btn btn-secondary">Clear</button>
+      <button id="copy-btn" class="btn btn-secondary">Copy</button>
+      <button id="toggle-theme-btn" class="btn btn-icon">🌙</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="sidebar">
+      <h3 class="sidebar-title">Settings</h3>
+      
+      <div class="setting-group">
+        <label for="language-select">Language</label>
+        <select id="language-select" class="select">
+          <option value="python">Python</option>
+          <option value="html">HTML</option>
+          <option value="css">CSS</option>
+          <option value="javascript">JavaScript</option>
+          <option value="java">Java</option>
+          <option value="web">Web (HTML/CSS/JS)</option>
+        </select>
+      </div>
+      
+      <div class="setting-group">
+        <label for="theme-select">Editor Theme</label>
+        <select id="theme-select" class="select">
+          <option value="claude-dark">Claude Dark</option>
+          <option value="claude-light">Claude Light</option>
+          <option value="monokai">Monokai</option>
+          <option value="github">GitHub</option>
+          <option value="solarized-dark">Solarized Dark</option>
+          <option value="solarized-light">Solarized Light</option>
+        </select>
+      </div>
+      
+      <div class="setting-group">
+        <label for="font-size-range">Font Size</label>
+        <input type="range" id="font-size-range" min="12" max="24" value="16" class="range">
+        <span id="font-size-value">16px</span>
+      </div>
+      
+      <div class="setting-group">
+        <label for="tab-size-select">Tab Size</label>
+        <select id="tab-size-select" class="select">
+          <option value="2">2 spaces</option>
+          <option value="4" selected>4 spaces</option>
+          <option value="8">8 spaces</option>
+        </select>
+      </div>
+      
+      <div class="setting-group">
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="auto-complete-checkbox" checked>
+          <label for="auto-complete-checkbox">Auto-complete</label>
+        </div>
+      </div>
+      
+      <div class="setting-group">
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="line-numbers-checkbox" checked>
+          <label for="line-numbers-checkbox">Line Numbers</label>
+        </div>
+      </div>
+      
+      <div class="setting-group">
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="wrap-text-checkbox">
+          <label for="wrap-text-checkbox">Wrap Text</label>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <p>Powered by Claude</p>
+        <p class="version">v1.0.0</p>
+      </div>
+    </div>
+
+    <div class="editor-container">
+      <div class="editor-wrapper">
+        <textarea id="code-editor"></textarea>
+      </div>
+      <div class="output-container" id="output-container">
+        <div class="output-header">
+          <h3>Output</h3>
+          <button id="clear-output-btn" class="btn btn-small">Clear</button>
+        </div>
+        <div id="output" class="output"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Created with 💜 by Claude</p>
+  </footer>
+
+  <div class="notification" id="notification">
+    <span id="notification-message"></span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
