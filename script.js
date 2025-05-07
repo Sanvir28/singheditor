@@ -4,7 +4,7 @@
 let editor;
 let htmlEditor, cssEditor, jsEditor;
 let currentLanguage = 'python';
-let currentTheme = 'singh-dark';
+let currentTheme = 'claude-dark';
 let isDarkTheme = true;
 let isWebMode = false;
 
@@ -319,14 +319,14 @@ function toggleTheme() {
     document.body.classList.remove('dark-theme');
     document.body.classList.add('light-theme');
     document.getElementById('toggle-theme-btn').textContent = '☀️';
-    document.getElementById('theme-select').value = 'singh-light';
-    changeTheme('singh-light');
+    document.getElementById('theme-select').value = 'claude-light';
+    changeTheme('claude-light');
   } else {
     document.body.classList.remove('light-theme');
     document.body.classList.add('dark-theme');
     document.getElementById('toggle-theme-btn').textContent = '🌙';
-    document.getElementById('theme-select').value = 'singh-dark';
-    changeTheme('singh-dark');
+    document.getElementById('theme-select').value = 'claude-dark';
+    changeTheme('claude-dark');
   }
   
   isDarkTheme = !isDarkTheme;
