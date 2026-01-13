@@ -1,144 +1,311 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Singh Editor</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- Load CodeMirror from CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
-  
-  <!-- CodeMirror modes -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/htmlmixed/htmlmixed.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/css/css.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/clike/clike.min.js"></script>
-  
-  <!-- CodeMirror addons -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closebrackets.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/matchbrackets.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldcode.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldgutter.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/javascript-hint.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/html-hint.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/css-hint.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldgutter.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.css">
-  
-  <!-- CodeMirror themes -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/solarized.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/github.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SinghEditor - Java Compiler</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: #2d2d30;
+            padding: 15px 20px;
+            border-bottom: 1px solid #3e3e42;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            color: #e8e8e8;
+        }
+
+        .btn {
+            background: #0e639c;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #1177bb;
+        }
+
+        .btn-clear {
+            background: #d13438;
+        }
+
+        .btn-clear:hover {
+            background: #e81123;
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .editor-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #3e3e42;
+        }
+
+        .editor-header {
+            background: #252526;
+            padding: 10px 15px;
+            border-bottom: 1px solid #3e3e42;
+            font-size: 13px;
+        }
+
+        #editor {
+            flex: 1;
+            padding: 15px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            border: none;
+            resize: none;
+            outline: none;
+            overflow: auto;
+            line-height: 1.5;
+        }
+
+        .output-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .output-header {
+            background: #252526;
+            padding: 10px 15px;
+            border-bottom: 1px solid #3e3e42;
+            font-size: 13px;
+        }
+
+        #console {
+            flex: 1;
+            padding: 15px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow: auto;
+            background: #1e1e1e;
+        }
+
+        .error {
+            color: #f48771;
+        }
+
+        .success {
+            color: #4ec9b0;
+        }
+
+        .warning {
+            color: #dcdcaa;
+        }
+
+        .output {
+            color: #d4d4d4;
+        }
+    </style>
 </head>
-<body class="dark-theme">
-  <header>
-    <div class="brand">
-      <div class="logo">C</div>
-      <h1 class="brand-title">Singh Editor</h1>
-    </div>
-    <div class="header-controls">
-      <button id="run-btn" class="btn btn-primary">Run Code</button>
-      <button id="clear-btn" class="btn btn-secondary">Clear</button>
-      <button id="copy-btn" class="btn btn-secondary">Copy</button>
-      <button id="toggle-theme-btn" class="btn btn-icon">🌙</button>
-    </div>
-  </header>
-
-  <main>
-    <div class="sidebar">
-      <h3 class="sidebar-title">Settings</h3>
-      
-      <div class="setting-group">
-        <label for="language-select">Language</label>
-        <select id="language-select" class="select">
-          <option value="python">Python</option>
-          <option value="html">HTML</option>
-          <option value="css">CSS</option>
-          <option value="javascript">JavaScript</option>
-          <option value="java">Java</option>
-          <option value="web">Web (HTML/CSS/JS)</option>
-        </select>
-      </div>
-      
-      <div class="setting-group">
-        <label for="theme-select">Editor Theme</label>
-        <select id="theme-select" class="select">
-          <option value="claude-dark">Singh Dark</option>
-          <option value="claude-dark">Singh Light</option>
-          <option value="monokai">Monokai</option>
-          <option value="github">GitHub</option>
-          <option value="solarized-dark">Solarized Dark</option>
-          <option value="solarized-light">Solarized Light</option>
-        </select>
-      </div>
-      
-      <div class="setting-group">
-        <label for="font-size-range">Font Size</label>
-        <input type="range" id="font-size-range" min="12" max="24" value="16" class="range">
-        <span id="font-size-value">16px</span>
-      </div>
-      
-      <div class="setting-group">
-        <label for="tab-size-select">Tab Size</label>
-        <select id="tab-size-select" class="select">
-          <option value="2">2 spaces</option>
-          <option value="4" selected>4 spaces</option>
-          <option value="8">8 spaces</option>
-        </select>
-      </div>
-      
-      <div class="setting-group">
-        <div class="checkbox-wrapper">
-          <input type="checkbox" id="auto-complete-checkbox" checked>
-          <label for="auto-complete-checkbox">Auto-complete</label>
-        </div>
-      </div>
-      
-      <div class="setting-group">
-        <div class="checkbox-wrapper">
-          <input type="checkbox" id="line-numbers-checkbox" checked>
-          <label for="line-numbers-checkbox">Line Numbers</label>
-        </div>
-      </div>
-      
-      <div class="setting-group">
-        <div class="checkbox-wrapper">
-          <input type="checkbox" id="wrap-text-checkbox">
-          <label for="wrap-text-checkbox">Wrap Text</label>
-        </div>
-      </div>
-
-      <div class="sidebar-footer">
-        <p>Powered by Claude</p>
-        <p class="version">v1.0.0</p>
-      </div>
+<body>
+    <div class="header">
+        <h1>☕ SinghEditor</h1>
+        <button class="btn" onclick="compileAndRun()">▶ Run</button>
+        <button class="btn btn-clear" onclick="clearOutput()">Clear Output</button>
     </div>
 
-    <div class="editor-container">
-      <div class="editor-wrapper">
-        <textarea id="code-editor"></textarea>
-      </div>
-      <div class="output-container" id="output-container">
-        <div class="output-header">
-          <h3>Output</h3>
-          <button id="clear-output-btn" class="btn btn-small">Clear</button>
+    <div class="container">
+        <div class="editor-panel">
+            <div class="editor-header">Main.java</div>
+            <textarea id="editor" spellcheck="false">public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+        
+        // Variables
+        int x = 10;
+        int y = 20;
+        int sum = x + y;
+        System.out.println("Sum: " + sum);
+        
+        // Loop
+        for (int i = 1; i <= 5; i++) {
+            System.out.println("Count: " + i);
+        }
+        
+        // Conditionals
+        if (sum > 25) {
+            System.out.println("Sum is greater than 25");
+        } else {
+            System.out.println("Sum is 25 or less");
+        }
+        
+        // String operations
+        String name = "Java";
+        System.out.println("Welcome to " + name + "!");
+    }
+}</textarea>
         </div>
-        <div id="output" class="output"></div>
-      </div>
+
+        <div class="output-panel">
+            <div class="output-header">Console Output</div>
+            <div id="console"></div>
+        </div>
     </div>
-  </main>
 
-  <footer>
-    <p>Sanvir Singh | Powered by Claude API</p>
-  </footer>
+    <script>
+        let consoleOutput = [];
 
-  <div class="notification" id="notification">
-    <span id="notification-message"></span>
-  </div>
+        function log(msg, type = 'output') {
+            const className = type;
+            consoleOutput.push(`<div class="${className}">${escapeHtml(msg)}</div>`);
+            document.getElementById('console').innerHTML = consoleOutput.join('');
+        }
 
-  <script src="script.js"></script>
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function clearOutput() {
+            consoleOutput = [];
+            document.getElementById('console').innerHTML = '';
+        }
+
+        function compileAndRun() {
+            clearOutput();
+            log('Compiling Java code...', 'warning');
+            
+            const code = document.getElementById('editor').value;
+            
+            try {
+                const runtime = new JavaRuntime();
+                runtime.execute(code);
+                log('Compilation successful!', 'success');
+            } catch (e) {
+                log(`Error: ${e.message}`, 'error');
+                console.error(e);
+            }
+        }
+
+        class JavaRuntime {
+            constructor() {
+                this.variables = {};
+            }
+
+            execute(code) {
+                const parsed = this.parseJava(code);
+                this.runMain(parsed);
+            }
+
+            parseJava(code) {
+                // Remove comments
+                code = code.replace(/\/\*[\s\S]*?\*\//g, '');
+                code = code.replace(/\/\/.*/g, '');
+                
+                return { code };
+            }
+
+            runMain(parsed) {
+                const code = parsed.code;
+                
+                // Create System.out for output
+                const System = {
+                    out: {
+                        println: (msg) => log(String(msg), 'output'),
+                        print: (msg) => log(String(msg), 'output')
+                    }
+                };
+
+                // Extract main method
+                const mainMatch = code.match(/public\s+static\s+void\s+main\s*\([^)]*\)\s*{([\s\S]*?)(?=\n\s*}\s*(?:}\s*)?$)/);
+                
+                if (!mainMatch) {
+                    throw new Error('No main method found');
+                }
+
+                let mainBody = mainMatch[1];
+                
+                // Transform Java syntax to JavaScript
+                mainBody = this.transpileToJS(mainBody);
+
+                // Execute in context
+                try {
+                    const func = new Function('System', mainBody);
+                    func(System);
+                } catch (e) {
+                    throw new Error(`Runtime error: ${e.message}`);
+                }
+            }
+
+            transpileToJS(code) {
+                // Handle variable declarations
+                code = code.replace(/\b(int|long|short|byte|float|double|boolean|char)\s+(\w+)\s*=/g, 'let $2 =');
+                code = code.replace(/\bString\s+(\w+)\s*=/g, 'let $2 =');
+                code = code.replace(/\b(int|long|short|byte|float|double|boolean|char|String)\s+(\w+)\s*;/g, 'let $2;');
+                
+                // Handle for loops with type declarations
+                code = code.replace(/for\s*\(\s*(int|long|short|byte)\s+(\w+)/g, 'for (let $2');
+                
+                // Handle array declarations
+                code = code.replace(/\b(int|String|double|float|boolean)\[\]\s+(\w+)\s*=/g, 'let $2 =');
+                code = code.replace(/new\s+(int|String|double|float|boolean)\[([^\]]+)\]/g, 'new Array($2)');
+                
+                // Handle String methods
+                code = code.replace(/\.equals\s*\(/g, ' === (');
+                code = code.replace(/\.equalsIgnoreCase\s*\(/g, '.toLowerCase() === (');
+                code = code.replace(/\.length\s*\(\s*\)/g, '.length');
+                code = code.replace(/\.charAt\s*\(/g, '.charAt(');
+                code = code.replace(/\.substring\s*\(/g, '.substring(');
+                code = code.replace(/\.indexOf\s*\(/g, '.indexOf(');
+                code = code.replace(/\.toUpperCase\s*\(\s*\)/g, '.toUpperCase()');
+                code = code.replace(/\.toLowerCase\s*\(\s*\)/g, '.toLowerCase()');
+                
+                // Handle Math operations
+                code = code.replace(/Math\.pow/g, 'Math.pow');
+                code = code.replace(/Math\.sqrt/g, 'Math.sqrt');
+                code = code.replace(/Math\.abs/g, 'Math.abs');
+                code = code.replace(/Math\.max/g, 'Math.max');
+                code = code.replace(/Math\.min/g, 'Math.min');
+                
+                // Handle Integer/Double parsing
+                code = code.replace(/Integer\.parseInt\s*\(/g, 'parseInt(');
+                code = code.replace(/Double\.parseDouble\s*\(/g, 'parseFloat(');
+                
+                return code;
+            }
+        }
+
+        // Auto-run on load
+        window.addEventListener('load', () => {
+            // Optional: Auto-run on load
+            // compileAndRun();
+        });
+    </script>
 </body>
 </html>
